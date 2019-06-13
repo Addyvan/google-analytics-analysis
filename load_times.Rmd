@@ -1,0 +1,99 @@
+---
+title: "Load Times"
+author: "Addison van den Hoeven"
+date: "June 12, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(dplyr)
+options("scipen"=100, "digits"=4)
+```
+
+## R Markdown
+
+
+```{r}
+df <- read.csv("load_data.csv")
+```
+
+```{r}
+unique(df$ga.pagePathLevel1)
+```
+
+### Subset into different dataframes for individual analysis
+
+```{r}
+# core
+df_feed <- df %>% filter(ga.pagePathLevel1  %in% c("/newsfeed/", "/newsfeed"))
+df_wire <- df %>% filter(ga.pagePathLevel1 %in% c("/thewire/", "/thewire"))
+df_groups <- df %>% filter(ga.pagePathLevel1 %in% c("/groups/"))
+df_profile <- df %>% filter(ga.pagePathLevel1 %in% c("/profile/"))
+df_dashboard <- df %>% filter(ga.pagePathLevel1 %in% c("/dashboard/", "/dashboard"))
+df_activity <- df %>% filter(ga.pagePathLevel1 %in% c("/activity/", "/activity"))
+df_members <- df %>% filter(ga.pagePathLevel1 %in% c("/members/", "/members"))
+df_questions <- df %>% filter(ga.pagePathLevel1 %in% c("/questions/", "/questions"))
+# features
+df_missions <- df %>% filter(ga.pagePathLevel1 %in% c("/missions/", "/missions"))
+df_bookmarks <- df %>% filter(ga.pagePathLevel1 %in% c("/bookmarks/", "/bookmarks"))
+df_discussion <- df %>% filter(ga.pagePathLevel1 %in% c("/discussion/"))
+df_blogs <- df %>% filter(ga.pagePathLevel1 %in% c("/blog/"))
+df_polls <- df %>% filter(ga.pagePathLevel1 %in% c("/polls/", "/polls"))
+df_events <- df %>% filter(ga.pagePathLevel1 %in% c("/event_calendar/"))
+df_files <- df %>% filter(ga.pagePathLevel1 %in% c("/file/", "/file"))
+df_help <- df %>% filter(ga.pagePathLevel1 %in% c("/help/", "/help"))
+# Communities
+df_atip <- df %>% filter(str_detect(ga.pagePathLevel1, "/ATIP_AIPRP")) # ATIP specialists
+df_communications <- df %>% filter(str_detect(ga.pagePathLevel1, "/Communications")) # Communications
+df_evaluators <- df %>% filter(str_detect(ga.pagePathLevel1, "/Evaluators_Ã‰valuateurs")) # Evaluators
+df_finance <- df %>% filter(str_detect(ga.pagePathLevel1, "/Finance")) # Financial Officers
+df_HR <- df %>% filter(str_detect(ga.pagePathLevel1, "/HR_RH")) 
+df_info_mgmt <- df %>% filter(str_detect(ga.pagePathLevel1, "/IM_GI?")) 
+df_IT <- df %>% filter(str_detect(ga.pagePathLevel1, "/Information")) 
+df_audit <- df %>% filter(str_detect(ga.pagePathLevel1, "/Auditors_VÃ©rificateurs")) 
+df_material_mgmt <- df %>% filter(str_detect(ga.pagePathLevel1, "/Material_matÃ©riel")) 
+df_policy <- df %>% filter(str_detect(ga.pagePathLevel1, "/Policy_Politiques")) 
+df_procurement <- df %>% filter(str_detect(ga.pagePathLevel1, "/Procurement_Acquisitions")) 
+df_real_property <- df %>% filter(str_detect(ga.pagePathLevel1, "/RealProperty_BiensImmobiliers")) # ATIP specialists
+df_regulators <- df %>% filter(str_detect(ga.pagePathLevel1, "/Regulators_RÃ©gulateurs")) # ATIP specialists
+df_science <- df %>% filter(str_detect(ga.pagePathLevel1, "/Science_Tech")) # ATIP specialists
+df_security <- df %>% filter(str_detect(ga.pagePathLevel1, "/Security_SÃ©curitÃ©")) # ATIP specialists
+df_service <- df %>% filter(str_detect(ga.pagePathLevel1, "/Service")) # ATIP specialists
+# misc actions
+df_changepassword <- df %>% filter(str_detect(ga.pagePathLevel1, "/changepassword"))
+df_register <- df %>% filter(str_detect(ga.pagePathLevel1, "/register"))
+```
+
+```{r}
+communities <- list(
+  list("ATIP Specialists", df_atip),
+  c("Communications", df_communications),
+  c("Evaluators", df_evaluators),
+  c("Finance", df_finance),
+  c("Human Resources", df_HR),
+  c("Information Management", df_info_mgmt),
+  c("Information Technology", df_IT),
+  c("Audit", df_audit),
+  c("Material Management", df_material_mgmt),
+  c("Policy", df_policy),
+  c("Procurement", df_procurement),
+  c("Real Property", df_real_property),
+  c("Regulatord", df_regulators),
+  c("Science and Technology", df_science),
+  c("Security", df_security),
+  c("Service", df_service)
+)
+```
+
+```{r}
+values <- c()
+labels <- c()
+
+for(community in communities) {
+  print(community[0])
+}
+
+print(length(communities))
+```
