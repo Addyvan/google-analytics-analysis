@@ -2,6 +2,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+sns.set_style("darkgrid")
+
 df = pd.read_csv("load_data.csv")
 
 # core
@@ -54,7 +56,7 @@ communities = [
   ["Policy", len(df_policy["ga:pageLoadTime"]),  df_policy["ga:pageLoadTime"].mean()],
   ["Procurement", len(df_procurement["ga:pageLoadTime"]),  df_procurement["ga:pageLoadTime"].mean()],
   ["Real Property", len(df_real_property["ga:pageLoadTime"]),  df_real_property["ga:pageLoadTime"].mean()],
-  ["Regulatord", len(df_regulators["ga:pageLoadTime"]),  df_regulators["ga:pageLoadTime"].mean()],
+  ["Regulators", len(df_regulators["ga:pageLoadTime"]),  df_regulators["ga:pageLoadTime"].mean()],
   ["Science and Technology", len(df_science["ga:pageLoadTime"]),  df_science["ga:pageLoadTime"].mean()],
   ["Security", len(df_security["ga:pageLoadTime"]),  df_security["ga:pageLoadTime"].mean()],
   ["Service", len(df_service["ga:pageLoadTime"]),  df_service["ga:pageLoadTime"].mean()]
@@ -85,8 +87,9 @@ df_communities = pd.DataFrame(communities)
 df_communities.columns = ["name",  "sample_size",  "mean"]
 df_communities["mean"] = df_communities["mean"]/1000 # convert to seconds
 
-df_communities.plot.scatter(x="sample_size", y="mean", style=".",  label="Community", ax=ax, color="red")
+df_communities.plot.scatter(x="sample_size", y="mean", style=".",  label="Communities", ax=ax, color="red")
 # add labels to scatter plot dots
+
 '''
 for i, community in enumerate(df_communities["name"]):
     ax.annotate(community, (df_communities["sample_size"][i], df_communities["mean"][i] + 0.5))
